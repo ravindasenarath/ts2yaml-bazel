@@ -1,0 +1,379 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Comment Service API",
+        "description": "This is a generated openapi spec for the Cognite Comment Service",
+        "version": "0.0.0"
+    },
+    "security": [
+        {
+            "bearerToken": []
+        }
+    ],
+    "servers": [
+        {
+            "description": "localhost",
+            "url": "http://localhost:8300",
+            "variables": {}
+        },
+        {
+            "description": "Discover API",
+            "url": "https://comment-service{environment}{cluster}",
+            "variables": {
+                "environment": {
+                    "enum": [
+                        ".",
+                        ".staging."
+                    ],
+                    "default": ".staging."
+                },
+                "cluster": {
+                    "enum": [
+                        "cognite.ai",
+                        "bluefield.cognite.ai",
+                        "greenfield.cognite.ai",
+                        "bp-northeurope.cognite.ai",
+                        "azure-dev.cognite.ai"
+                    ],
+                    "default": "bluefield.cognite.ai"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/_status": {
+            "get": {
+                "tags": [
+                    "Default"
+                ],
+                "summary": "Returns status of the service",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "Ok message",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{project}/comment": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Comment create",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "path",
+                        "description": "The CDF project",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The comment to create",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentCreateBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns the comment created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Comment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{project}/comment/list": {
+            "post": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Comments list",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "path",
+                        "description": "The CDF project",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "List of comments",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentListBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns an array of comments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CommentResponse"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{project}/comment/delete": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Comment(s) delete",
+                "parameters": [
+                    {
+                        "name": "project",
+                        "in": "path",
+                        "description": "The CDF project",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "The comment(s) to delete",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentDeleteBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Returns an array of the comment id's deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Comment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "default": {
+                "description": "Unexpected error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ErrorModel"
+                        }
+                    }
+                }
+            }
+        },
+        "schemas": {
+            "Comment": {
+                "type": "object",
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/CommentTarget"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "created",
+                            "updated",
+                            "deleted"
+                        ]
+                    }
+                },
+                "required": [
+                    "comment",
+                    "target"
+                ],
+                "additionalProperties": false
+            },
+            "CommentResponse": {
+                "type": "object",
+                "properties": {
+                    "comment": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/CommentTarget"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "created",
+                            "updated",
+                            "deleted"
+                        ]
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "createdTime": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "lastUpdatedTime": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "_owner": {
+                        "type": "string"
+                    },
+                    "displayName": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "comment",
+                    "target",
+                    "id",
+                    "createdTime",
+                    "lastUpdatedTime"
+                ],
+                "additionalProperties": false
+            },
+            "CommentTarget": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "targetType": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id"
+                ],
+                "additionalProperties": false
+            },
+            "CommentCreateBody": {
+                "type": "object",
+                "properties": {
+                    "scope": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    },
+                    "target": {
+                        "$ref": "#/components/schemas/CommentTarget"
+                    }
+                },
+                "required": [
+                    "comment",
+                    "target"
+                ],
+                "additionalProperties": false
+            },
+            "CommentListBody": {
+                "type": "object",
+                "properties": {
+                    "filter": {
+                        "type": "object",
+                        "properties": {
+                            "target": {
+                                "$ref": "#/components/schemas/CommentTarget"
+                            }
+                        }
+                    },
+                    "scope": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "limit": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "filter"
+                ],
+                "additionalProperties": false
+            },
+            "CommentDeleteBody": {
+                "type": "object",
+                "properties": {
+                    "scope": {
+                        "type": "string"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "target": {
+                                    "$ref": "#/components/schemas/CommentTarget"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "items"
+                ],
+                "additionalProperties": false
+            },
+            "ErrorModel": {
+                "type": "object",
+                "properties": {
+                    "app": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

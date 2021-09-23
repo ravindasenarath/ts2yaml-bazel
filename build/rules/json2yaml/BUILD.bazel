@@ -1,0 +1,33 @@
+load("@npm//ts-node:index.bzl", "ts_node")
+# load("//build/rules/ts2yaml:ts2yaml.bzl", "generate_open_api_yaml_v2")
+# load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+
+SOURCES = glob(
+    ["src/**/*.ts"],
+    exclude = [
+        "src/**/*.test.ts*",
+        "src/**/*.spec.ts*",
+        "src/__mocks__/*",
+        "src/**/__mocks__/*",
+        "src/__tests__/*",
+        "src/**/__tests__/*",
+    ],
+)
+
+ts_node(
+    name = "yaml-generator",
+    data = [
+        "generateYml.ts",
+        "tsconfig.json",
+        "//:tsconfig.json",
+        "@npm//yaml",
+        "@npm//openapi-core",
+    ] + SOURCES,
+    templated_args = [
+        "--bazel_patch_module_resolver",
+        "--project",
+        "$(rlocation tsconfig.json)",
+        "$$(rlocation $(rootpath :generateYml.ts))",
+    ],
+    visibility = ["//visibility:public"],
+)
