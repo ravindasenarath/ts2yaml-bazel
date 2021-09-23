@@ -3,6 +3,7 @@ node_modules
 yarn-error.log
 package-lock.json
 
-bazel-bin/
-bazel-testlogs/
-bazel-ts-node-exampl/
+bazel-bin
+bazel-out
+bazel-ts-node-example
+bazel-testlogs
