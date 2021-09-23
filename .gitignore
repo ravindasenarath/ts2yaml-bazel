@@ -3,40 +3,6 @@ node_modules
 yarn-error.log
 package-lock.json
 
-# production
-packages/*/build
-services/*/build
-.rts2_*
-dist
-
-# testing
-coverage/
-generator-dist/
-
-#misc
-.npmrc
-.idea
-.env
-.DS_Store
-
-# service-accounts
-*credentials.json
-
-# NPM
-npm-public-credentials.txt
-
-# fas-utils
-.fas-build.json
-
-firebase-debug.log
-firestore-debug.log
-
-# Bazel
-bazel-out
-.user.bazelrc
-
-codecov-upload-report.sh
-
-# poetry
-.venv
-__pycache__
+bazel-bin/
+bazel-testlogs/
+bazel-ts-node-exampl/

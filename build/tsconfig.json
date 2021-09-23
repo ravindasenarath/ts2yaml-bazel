@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2020",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "rootDirs": ["."],
+    "paths": {
+      "@cognite/*": ["../../../dist/bin/packages/*"]
+    }
+  }
+}

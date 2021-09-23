@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "./build",
+    "target": "es6",
+    "inlineSourceMap": true,
+    "lib": ["es2019"]
+  }
+}

@@ -1,5 +1,6 @@
 load("//build/rules/json2yaml:json2yaml.bzl", "generate_yaml_from_json")
 load("//build/rules/ts2yaml:ts2yaml.bzl", "generate_yaml_from_ts")
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
 
 DEPENDENCIES = [
     "@npm//openapi-core",
@@ -17,9 +18,23 @@ TYPE_DEPENDENCIES = [
 #     name = 'generate_yaml',
 #     schema = "src/api/routes/schema/openapi.schema.json"
 # )
+ts_library(
+    name = "schemas",
+    srcs = glob(["src/*schema.ts"]),
+    tsconfig = "tsconfig.json",
+    deps = [
+        "@npm//yaml",
+    ],
+)
+
+generate_yaml_from_json(
+    name = 'generate_yaml',
+    json = "src/api/routes/openapi.schema.json",
+)
 
 # From ts
-generate_yaml_from_ts(
-    name = 'generate_yaml',
-    schema = "src/api/routes/openapi.schema.ts"
-)
+# generate_yaml_from_ts(
+#     name = 'generate_yaml',
+#     schema = "src/api/routes/openapi.schema.ts",
+#     schema_list = [":schemas"]
+# )

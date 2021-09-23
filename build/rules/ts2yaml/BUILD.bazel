@@ -1,6 +1,6 @@
 load("@npm//ts-node:index.bzl", "ts_node")
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 # load("//build/rules/ts2yaml:ts2yaml.bzl", "generate_open_api_yaml_v2")
+# load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 
 SOURCES = glob(
     ["src/**/*.ts"],
@@ -21,28 +21,12 @@ ts_node(
         "tsconfig.json",
         "@npm//yaml",
         "@npm//openapi-core",
-        "@npm//@types/node",
     ] + SOURCES,
     templated_args = [
         "--bazel_patch_module_resolver",
         "--project",
-        "$(rootpath tsconfig.json)",
+        "$(rlocation tsconfig.json)",
         "$$(rlocation $(rootpath :generateYml.ts))",
     ],
     visibility = ["//visibility:public"],
 )
-
-# nodejs_binary(
-#     name = "yaml-generator-v2",
-#     data = [
-#         "generateYml.js",
-#         "@npm//yaml",
-#     ],
-#     entry_point = "generateYml.js",
-#     visibility = ["//visibility:public"],
-# )
-
-# generate_open_api_yaml_v2(
-#     name = 'test_yaml',
-#     schema = "src/api/routes/openapi.schema.ts"
-# )
