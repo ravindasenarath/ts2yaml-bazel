@@ -1,40 +1,7 @@
-load("//build/rules/json2yaml:json2yaml.bzl", "generate_yaml_from_json")
-load("//build/rules/ts2yaml:ts2yaml.bzl", "generate_yaml_from_ts")
-load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("//build/rules/tsnoderegister:runtimets.bzl", "ts_2_yaml")
 
-DEPENDENCIES = [
-    "@npm//openapi-core",
-    "@npm//yaml",
-]
-
-TYPE_DEPENDENCIES = [
-    "@npm//@types/yaml",
-]
-
-### Generate YAML
-
-# From JSON, this works
-# generate_yaml_from_json(
-#     name = 'generate_yaml',
-#     schema = "src/api/routes/schema/openapi.schema.json"
-# )
-ts_library(
-    name = "schemas",
-    srcs = glob(["src/*schema.ts"]),
-    tsconfig = "tsconfig.json",
-    deps = [
-        "@npm//yaml",
-    ],
+ts_2_yaml(
+    name = "generate_yaml",
+    schemas = glob(["src/**/*schema.ts"]),
+    main_file = "src/api/routes/openapi.schema.ts"
 )
-
-generate_yaml_from_json(
-    name = 'generate_yaml',
-    json = "src/api/routes/openapi.schema.json",
-)
-
-# From ts
-# generate_yaml_from_ts(
-#     name = 'generate_yaml',
-#     schema = "src/api/routes/openapi.schema.ts",
-#     schema_list = [":schemas"]
-# )

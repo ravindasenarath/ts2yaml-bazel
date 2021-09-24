@@ -1,0 +1,13 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+
+nodejs_binary(
+    name = "ys-2-yaml",
+    data = [
+        "main.js",
+        "@npm//yaml",
+        "@npm//openapi-core",
+        "@npm//ts-node"
+    ],
+    entry_point = "main.js",
+    visibility = ["//visibility:public"],
+)
